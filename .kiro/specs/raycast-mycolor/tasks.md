@@ -13,13 +13,13 @@
   - Create type definitions for RGB values and color data structures
   - _Requirements: 4.1, 4.2_
 
-- [ ] 3. Create color service for file operations
-  - [ ] 3.1 Implement color file loading functionality
+- [x] 3. Create color service for file operations
+  - [x] 3.1 Implement color file loading functionality
     - Write function to read colors from ~/Library/Application Support/raycast-my-color/colors.json
     - Handle basic file not found scenarios with try/catch
     - _Requirements: 1.3, 4.2, 4.3_
 
-  - [ ] 3.2 Implement default color file creation
+  - [x] 3.2 Implement default color file creation
     - Create function to generate default colors.json with 3-5 sample colors
     - Ensure directory creation if it doesn't exist
     - Write default color data to file system
