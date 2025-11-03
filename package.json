@@ -1,13 +1,12 @@
 {
-  "name": "raycast-mycolor",
-  "displayName": "MyColor",
-  "version": "1.0.0",
+  "$schema": "https://www.raycast.com/schemas/extension.json",
+  "name": "mycolor",
+  "title": "MyColor",
   "description": "Quick access to your favorite RGB colors",
   "icon": "color-palette.png",
-  "author": "developer",
-  "owner": "developer",
+  "author": "local-dev",
   "categories": [
-    "Design Tools"
+    "Other"
   ],
   "license": "MIT",
   "commands": [
@@ -34,8 +33,5 @@
     "fix-lint": "ray lint --fix",
     "lint": "ray lint",
     "type-check": "tsc --noEmit"
-  },
-  "engines": {
-    "node": ">=18"
   }
 }
