@@ -8,12 +8,12 @@ import { ColorEntry, RGB } from "../types";
  */
 export function formatRgbString(color: ColorEntry): string {
   const { r, g, b } = color.rgb;
-  
+
   // Validate RGB values are within valid range (0-255)
   const validR = Math.max(0, Math.min(255, Math.round(r)));
   const validG = Math.max(0, Math.min(255, Math.round(g)));
   const validB = Math.max(0, Math.min(255, Math.round(b)));
-  
+
   return `rgb(${validR}, ${validG}, ${validB})`;
 }
 
@@ -23,12 +23,12 @@ export function formatRgbString(color: ColorEntry): string {
  */
 export function formatRgbFromValues(rgb: RGB): string {
   const { r, g, b } = rgb;
-  
+
   // Validate RGB values are within valid range (0-255)
   const validR = Math.max(0, Math.min(255, Math.round(r)));
   const validG = Math.max(0, Math.min(255, Math.round(g)));
   const validB = Math.max(0, Math.min(255, Math.round(b)));
-  
+
   return `rgb(${validR}, ${validG}, ${validB})`;
 }
 
@@ -42,24 +42,23 @@ export async function copyRgbToClipboard(color: ColorEntry): Promise<void> {
   try {
     // Format the RGB string
     const rgbString = formatRgbString(color);
-    
+
     // Copy to clipboard using Raycast API
     await Clipboard.copy(rgbString);
-    
+
     // Show success toast notification (requirement 2.3)
     await showToast({
       style: Toast.Style.Success,
       title: "RGB Copied!",
       message: `${color.name}: ${rgbString}`,
     });
-    
+
     // Close Raycast interface after successful copy (requirement 2.4)
     await closeMainWindow();
-    
   } catch (error) {
     // Handle clipboard errors gracefully
     console.error("Failed to copy RGB to clipboard:", error);
-    
+
     // Show error toast notification
     await showToast({
       style: Toast.Style.Failure,

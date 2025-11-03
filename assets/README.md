@@ -1,7 +1,16 @@
 # Assets Directory
 
-This directory should contain the extension icon:
+This directory contains assets for the MyColor extension:
 
-- `color-palette.png` - The main icon for the MyColor extension (16x16, 32x32, 64x64, 128x128, 256x256, or 512x512 pixels)
+- `color-palette.svg` - SVG version of the color palette icon
+- `color-palette.png` - **TODO**: PNG version needed for Raycast (512x512 pixels recommended)
 
-The icon should be a proper PNG file representing a color palette or similar design tool icon.
+## Icon Requirements
+
+Raycast extensions require PNG format icons. The SVG file exists but needs to be converted to PNG format and referenced in package.json:
+
+```json
+"icon": "color-palette.png"
+```
+
+The icon should be 512x512 pixels for best quality across all Raycast interface sizes.

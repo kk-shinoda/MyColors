@@ -3,7 +3,9 @@
   "displayName": "MyColor",
   "version": "1.0.0",
   "description": "Quick access to your favorite RGB colors",
+  "icon": "color-palette.svg",
   "author": "developer",
+  "owner": "developer",
   "categories": [
     "Design Tools"
   ],
