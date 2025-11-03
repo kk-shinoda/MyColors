@@ -21,30 +21,44 @@ export interface ColorEntry {
 /**
  * Type guard to validate if an object is a valid RGB color
  */
-export function isValidRGB(obj: any): obj is RGB {
+export function isValidRGB(obj: unknown): obj is RGB {
+  if (typeof obj !== 'object' || obj === null) {
+    return false;
+  }
+  
+  const record = obj as Record<string, unknown>;
+  
   return (
-    typeof obj === 'object' &&
-    obj !== null &&
-    typeof obj.r === 'number' &&
-    typeof obj.g === 'number' &&
-    typeof obj.b === 'number' &&
-    obj.r >= 0 && obj.r <= 255 &&
-    obj.g >= 0 && obj.g <= 255 &&
-    obj.b >= 0 && obj.b <= 255
+    'r' in record &&
+    'g' in record &&
+    'b' in record &&
+    typeof record.r === 'number' &&
+    typeof record.g === 'number' &&
+    typeof record.b === 'number' &&
+    record.r >= 0 && record.r <= 255 &&
+    record.g >= 0 && record.g <= 255 &&
+    record.b >= 0 && record.b <= 255
   );
 }
 
 /**
  * Type guard to validate if an object is a valid ColorEntry
  */
-export function isValidColorEntry(obj: any): obj is ColorEntry {
+export function isValidColorEntry(obj: unknown): obj is ColorEntry {
+  if (typeof obj !== 'object' || obj === null) {
+    return false;
+  }
+  
+  const record = obj as Record<string, unknown>;
+  
   return (
-    typeof obj === 'object' &&
-    obj !== null &&
-    typeof obj.index === 'number' &&
-    typeof obj.name === 'string' &&
-    obj.name.length > 0 &&
-    obj.index >= 0 &&
-    isValidRGB(obj.rgb)
+    'index' in record &&
+    'name' in record &&
+    'rgb' in record &&
+    typeof record.index === 'number' &&
+    typeof record.name === 'string' &&
+    typeof record.name === 'string' && record.name.length > 0 &&
+    record.index >= 0 &&
+    isValidRGB(record.rgb)
   );
 }

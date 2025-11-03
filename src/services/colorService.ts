@@ -99,7 +99,7 @@ export async function loadColors(): Promise<ColorEntry[]> {
 
     // Filter and validate color entries
     const validColors = parsedData
-      .filter((item: any) => isValidColorEntry(item))
+      .filter((item: unknown) => isValidColorEntry(item))
       .slice(0, MAX_COLORS); // Limit to maximum colors (requirement 1.2)
 
     // If no valid colors found, return defaults
