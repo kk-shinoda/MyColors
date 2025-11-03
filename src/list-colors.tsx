@@ -19,7 +19,7 @@ export default function ListColorsCommand() {
       try {
         setIsLoading(true);
         setError(null);
-        
+
         const loadedColors = await loadColors();
         setColors(loadedColors);
       } catch (err) {
@@ -46,7 +46,7 @@ export default function ListColorsCommand() {
       const hex = Math.max(0, Math.min(255, Math.round(value))).toString(16);
       return hex.length === 1 ? "0" + hex : hex;
     };
-    
+
     return `#${toHex(r)}${toHex(g)}${toHex(b)}` as Color;
   };
 
