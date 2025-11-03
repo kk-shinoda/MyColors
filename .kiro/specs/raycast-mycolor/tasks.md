@@ -25,13 +25,13 @@
     - Write default color data to file system
     - _Requirements: 1.4, 4.3_
 
-- [ ] 4. Build copy action functionality
-  - [ ] 4.1 Implement RGB string formatting
+- [x] 4. Build copy action functionality
+  - [x] 4.1 Implement RGB string formatting
     - Create function to convert ColorEntry RGB values to "rgb(r, g, b)" format
     - Handle numeric value validation and formatting
     - _Requirements: 2.2_
 
-  - [ ] 4.2 Implement clipboard copy action
+  - [x] 4.2 Implement clipboard copy action
     - Use Raycast API to copy formatted RGB string to clipboard
     - Add user feedback with toast notification
     - Close Raycast interface after successful copy
