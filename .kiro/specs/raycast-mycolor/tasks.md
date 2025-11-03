@@ -78,3 +78,64 @@
     - Test RGB string formatting function
     - Verify proper color value conversion
     - _Requirements: 2.2_
+##
+ Raycast Store Publication Steps
+
+- [ ] 9. Prepare for Raycast Store publication
+  - [ ] 9.1 Create Raycast developer account
+    - Sign up at https://developers.raycast.com/
+    - Complete developer profile setup
+    - Verify email and account details
+
+  - [ ] 9.2 Update extension metadata for publication
+    - Replace "local-dev" author with actual Raycast username
+    - Add proper extension description and keywords
+    - Ensure icon meets Raycast Store requirements (512x512 PNG)
+    - Add screenshots for store listing (1280x800 recommended)
+
+  - [ ] 9.3 Validate extension for store submission
+    - Run `npx ray lint` to ensure all validation passes
+    - Test extension thoroughly in development mode
+    - Verify all commands work as expected
+    - Check extension follows Raycast design guidelines
+
+  - [ ] 9.4 Submit extension to Raycast Store
+    - Run `npx ray login` to authenticate with Raycast account
+    - Use `npx ray publish` to submit extension for review
+    - Fill out store listing information (description, categories, etc.)
+    - Submit for Raycast team review
+
+  - [ ] 9.5 Handle store review process
+    - Respond to any feedback from Raycast review team
+    - Make necessary changes if requested
+    - Re-submit updated version if needed
+    - Monitor review status and approval
+
+  - [ ] 9.6 Post-publication maintenance
+    - Monitor user feedback and ratings
+    - Plan future feature updates based on user requests
+    - Keep extension updated with latest Raycast API changes
+    - Maintain compatibility with new Raycast versions
+
+### Publication Requirements:
+- Valid Raycast developer account
+- Extension passes all lint checks
+- Proper metadata and icon assets
+- Thorough testing in development mode
+- Compliance with Raycast Store guidelines
+- Screenshots and store listing materials
+
+### Useful Commands:
+```bash
+# Login to Raycast account
+npx ray login
+
+# Validate extension before submission
+npx ray lint
+
+# Publish to Raycast Store
+npx ray publish
+
+# Check current login status
+npx ray profile
+```
