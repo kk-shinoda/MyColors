@@ -35,6 +35,5 @@
   },
   "engines": {
     "node": ">=18"
-  },
-  "prettier": "@raycast/eslint-config/prettier.config.js"
+  }
 }
