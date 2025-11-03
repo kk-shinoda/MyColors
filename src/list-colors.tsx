@@ -2,7 +2,7 @@ import { List, Color, Icon, ActionPanel, Action } from "@raycast/api";
 import { useState, useEffect } from "react";
 import { ColorEntry } from "./types";
 import { loadColors } from "./services/colorService";
-import { copyRgbToClipboard, formatRgbString } from "./actions/copyAction";
+import { copyHexToClipboard, formatHexString } from "./actions/copyAction";
 
 /**
  * Main Raycast command component for listing and copying colors
@@ -35,7 +35,7 @@ export default function ListColorsCommand() {
 
   // Handle color selection and copy action (requirements 2.1, 2.2, 2.3, 2.4)
   const handleColorCopy = async (color: ColorEntry) => {
-    await copyRgbToClipboard(color);
+    await copyHexToClipboard(color);
   };
 
   // Convert RGB values to Raycast Color for preview (requirement 3.1, 3.3)
@@ -73,14 +73,14 @@ export default function ListColorsCommand() {
           <List.Item
             key={color.index}
             title={color.name}
-            subtitle={formatRgbString(color)}
+            subtitle={formatHexString(color)}
             icon={{
               source: Icon.Circle,
               tintColor: getRgbColor(color),
             }}
             accessories={[
               {
-                text: formatRgbString(color),
+                text: formatHexString(color),
                 icon: {
                   source: Icon.Circle,
                   tintColor: getRgbColor(color),
@@ -90,7 +90,7 @@ export default function ListColorsCommand() {
             actions={
               <ActionPanel>
                 <Action
-                  title="Copy Rgb to Clipboard"
+                  title="Copy Hex Color to Clipboard"
                   icon={Icon.Clipboard}
                   onAction={() => handleColorCopy(color)}
                 />
