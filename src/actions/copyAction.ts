@@ -15,9 +15,9 @@ export function formatHexString(color: ColorEntry): string {
   const validB = Math.max(0, Math.min(255, Math.round(b)));
 
   // Convert to hex and pad with zeros if necessary
-  const hexR = validR.toString(16).padStart(2, '0');
-  const hexG = validG.toString(16).padStart(2, '0');
-  const hexB = validB.toString(16).padStart(2, '0');
+  const hexR = validR.toString(16).padStart(2, "0");
+  const hexG = validG.toString(16).padStart(2, "0");
+  const hexB = validB.toString(16).padStart(2, "0");
 
   return `#${hexR}${hexG}${hexB}`;
 }
@@ -35,9 +35,9 @@ export function formatHexFromValues(rgb: RGB): string {
   const validB = Math.max(0, Math.min(255, Math.round(b)));
 
   // Convert to hex and pad with zeros if necessary
-  const hexR = validR.toString(16).padStart(2, '0');
-  const hexG = validG.toString(16).padStart(2, '0');
-  const hexB = validB.toString(16).padStart(2, '0');
+  const hexR = validR.toString(16).padStart(2, "0");
+  const hexG = validG.toString(16).padStart(2, "0");
+  const hexB = validB.toString(16).padStart(2, "0");
 
   return `#${hexR}${hexG}${hexB}`;
 }
