@@ -67,7 +67,7 @@ MyColor is a minimal Raycast extension that allows users to quickly access and c
 
 #### Acceptance Criteria
 
-1. THE MyColor Extension SHALL include a valid extension.json file with proper Raycast configuration
+1. THE MyColor Extension SHALL include a valid package.json file with proper Raycast extension configuration
 2. THE MyColor Extension SHALL include a package.json file with appropriate dependencies and scripts
 3. THE MyColor Extension SHALL be built using Node.js with TypeScript
 4. THE MyColor Extension SHALL include TypeScript configuration for type safety
