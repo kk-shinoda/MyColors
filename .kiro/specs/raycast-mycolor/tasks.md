@@ -68,50 +68,77 @@
   - Configure ESLint and TypeScript compilation in CI
   - _Requirements: 5.1, 5.5, 6.1, 6.2, 6.3, 6.5_
 
-- [ ]* 8. Add minimal unit tests
-  - [ ]* 8.1 Write basic color service tests
+- [ ] 8. Implement color management functionality
+  - [ ] 8.1 Create color management service
+    - Implement function to save colors to colors.json file
+    - Add function to add new color entries
+    - Add function to edit existing color entries
+    - Add function to delete color entries
+    - Ensure proper file system operations and error handling
+
+  - [ ] 8.2 Build color management UI components
+    - Create form component for adding new colors
+    - Create form component for editing existing colors
+    - Add color picker or RGB input fields
+    - Implement validation for color names and RGB values
+
+  - [ ] 8.3 Add color management actions to main list
+    - Add "Add New Color" action accessible via Cmd+K
+    - Add "Edit Color" action for each color item
+    - Add "Delete Color" action for each color item
+    - Implement proper action panel organization
+
+  - [ ] 8.4 Integrate color management with existing functionality
+    - Update color service to reload colors after modifications
+    - Ensure UI refreshes after color changes
+    - Handle edge cases (empty color list, duplicate names)
+    - Maintain proper state management
+
+- [ ]* 9. Add minimal unit tests
+  - [ ]* 9.1 Write basic color service tests
     - Test default color file creation functionality
     - Test color loading from existing file
+    - Test color saving and modification functions
     - _Requirements: 4.2, 4.3_
 
-  - [ ]* 8.2 Write copy action tests  
-    - Test RGB string formatting function
+  - [ ]* 9.2 Write copy action tests  
+    - Test hex string formatting function
     - Verify proper color value conversion
     - _Requirements: 2.2_
-##
- Raycast Store Publication Steps
 
-- [ ] 9. Prepare for Raycast Store publication
-  - [ ] 9.1 Create Raycast developer account
+## Raycast Store Publication Steps
+
+- [ ] 10. Prepare for Raycast Store publication
+  - [ ] 10.1 Create Raycast developer account
     - Sign up at https://developers.raycast.com/
     - Complete developer profile setup
     - Verify email and account details
 
-  - [ ] 9.2 Update extension metadata for publication
+  - [ ] 10.2 Update extension metadata for publication
     - Replace "local-dev" author with actual Raycast username
     - Add proper extension description and keywords
     - Ensure icon meets Raycast Store requirements (512x512 PNG)
     - Add screenshots for store listing (1280x800 recommended)
 
-  - [ ] 9.3 Validate extension for store submission
+  - [ ] 10.3 Validate extension for store submission
     - Run `npx ray lint` to ensure all validation passes
     - Test extension thoroughly in development mode
     - Verify all commands work as expected
     - Check extension follows Raycast design guidelines
 
-  - [ ] 9.4 Submit extension to Raycast Store
+  - [ ] 10.4 Submit extension to Raycast Store
     - Run `npx ray login` to authenticate with Raycast account
     - Use `npx ray publish` to submit extension for review
     - Fill out store listing information (description, categories, etc.)
     - Submit for Raycast team review
 
-  - [ ] 9.5 Handle store review process
+  - [ ] 10.5 Handle store review process
     - Respond to any feedback from Raycast review team
     - Make necessary changes if requested
     - Re-submit updated version if needed
     - Monitor review status and approval
 
-  - [ ] 9.6 Post-publication maintenance
+  - [ ] 10.6 Post-publication maintenance
     - Monitor user feedback and ratings
     - Plan future feature updates based on user requests
     - Keep extension updated with latest Raycast API changes
