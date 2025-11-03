@@ -37,19 +37,19 @@
     - Close Raycast interface after successful copy
     - _Requirements: 2.1, 2.3, 2.4_
 
-- [ ] 5. Create main Raycast command interface
-  - [ ] 5.1 Build color list UI component
+- [x] 5. Create main Raycast command interface
+  - [x] 5.1 Build color list UI component
     - Implement Raycast List component with color entries
     - Display color name and RGB preview for each entry
     - _Requirements: 1.1, 1.2, 3.1, 3.2, 3.3_
 
-  - [ ] 5.2 Integrate color service with UI
+  - [x] 5.2 Integrate color service with UI
     - Load colors from file service on command initialization
     - Handle loading states and basic error scenarios
     - Display colors in list with proper formatting
     - _Requirements: 1.3, 1.4, 3.4_
 
-  - [ ] 5.3 Wire up copy actions to list items
+  - [x] 5.3 Wire up copy actions to list items
     - Connect copy action to color selection in list
     - Implement action handlers for each color entry
     - Ensure proper RGB formatting and clipboard integration
