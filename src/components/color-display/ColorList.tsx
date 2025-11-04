@@ -3,6 +3,7 @@ import {
   Color,
   Icon,
   ActionPanel,
+  Action,
   showToast,
   Toast,
 } from "@raycast/api";
@@ -11,8 +12,8 @@ import { ColorEntry } from "../../types";
 import { copyHexToClipboard, formatHexString } from "../../actions/copyAction";
 import { AddColorForm, EditColorForm } from "../color-management";
 import { useColors } from "../../hooks";
-import { UI_TEXT, KEYBOARD_SHORTCUTS } from "../../constants/appConstants";
-import { ActionButton, showDeleteConfirmation } from "../shared";
+import { UI_TEXT } from "../../constants/appConstants";
+import { showDeleteConfirmation } from "../shared";
 
 /**
  * Main Raycast command component for listing and copying colors
@@ -20,14 +21,8 @@ import { ActionButton, showDeleteConfirmation } from "../shared";
  */
 export default function ColorList() {
   const { push } = useNavigation();
-  const {
-    colors,
-    isLoading,
-    error,
-    refreshColors,
-    removeColor,
-    setColors,
-  } = useColors();
+  const { colors, isLoading, error, refreshColors, removeColor, setColors } =
+    useColors();
 
   // Handle color selection and copy action (requirements 2.1, 2.2, 2.3, 2.4)
   const handleColorCopy = async (color: ColorEntry) => {
@@ -91,16 +86,14 @@ export default function ColorList() {
       navigationTitle={UI_TEXT.NAVIGATION_TITLE}
       actions={
         <ActionPanel>
-          <ActionButton
+          <Action
             title="Add New Color"
             icon={Icon.Plus}
-            shortcut={KEYBOARD_SHORTCUTS.ADD_COLOR}
             onAction={handleAddColor}
           />
-          <ActionButton
+          <Action
             title="Refresh Colors"
             icon={Icon.ArrowClockwise}
-            shortcut={KEYBOARD_SHORTCUTS.REFRESH}
             onAction={refreshColors}
           />
         </ActionPanel>
@@ -113,15 +106,14 @@ export default function ColorList() {
           description={error}
           actions={
             <ActionPanel>
-              <ActionButton
+              <Action
                 title="Retry Loading Colors"
                 icon={Icon.ArrowClockwise}
                 onAction={refreshColors}
               />
-              <ActionButton
+              <Action
                 title="Add New Color"
                 icon={Icon.Plus}
-                shortcut={KEYBOARD_SHORTCUTS.ADD_COLOR}
                 onAction={handleAddColor}
               />
             </ActionPanel>
@@ -134,16 +126,14 @@ export default function ColorList() {
           description={UI_TEXT.EMPTY_STATE_DESCRIPTION}
           actions={
             <ActionPanel>
-              <ActionButton
+              <Action
                 title="Add New Color"
                 icon={Icon.Plus}
-                shortcut={KEYBOARD_SHORTCUTS.ADD_COLOR}
                 onAction={handleAddColor}
               />
-              <ActionButton
+              <Action
                 title="Refresh"
                 icon={Icon.ArrowClockwise}
-                shortcut={KEYBOARD_SHORTCUTS.REFRESH}
                 onAction={refreshColors}
               />
             </ActionPanel>
@@ -171,7 +161,7 @@ export default function ColorList() {
             actions={
               <ActionPanel>
                 <ActionPanel.Section>
-                  <ActionButton
+                  <Action
                     title="Copy Hex Color to Clipboard"
                     icon={Icon.Clipboard}
                     onAction={() => handleColorCopy(color)}
@@ -179,32 +169,28 @@ export default function ColorList() {
                 </ActionPanel.Section>
 
                 <ActionPanel.Section>
-                  <ActionButton
+                  <Action
                     title="Add New Color"
                     icon={Icon.Plus}
-                    shortcut={KEYBOARD_SHORTCUTS.ADD_COLOR}
                     onAction={handleAddColor}
                   />
-                  <ActionButton
+                  <Action
                     title="Edit Color"
                     icon={Icon.Pencil}
-                    shortcut={KEYBOARD_SHORTCUTS.EDIT}
                     onAction={() => handleEditColor(color)}
                   />
-                  <ActionButton
+                  <Action
                     title="Delete Color"
                     icon={Icon.Trash}
-                    style="Destructive"
-                    shortcut={KEYBOARD_SHORTCUTS.DELETE}
+                    style={Action.Style.Destructive}
                     onAction={() => handleDeleteColor(color)}
                   />
                 </ActionPanel.Section>
 
                 <ActionPanel.Section>
-                  <ActionButton
+                  <Action
                     title="Refresh Colors"
                     icon={Icon.ArrowClockwise}
-                    shortcut={KEYBOARD_SHORTCUTS.REFRESH}
                     onAction={refreshColors}
                   />
                 </ActionPanel.Section>

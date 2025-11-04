@@ -17,7 +17,7 @@ export class BackgroundSyncManager {
    */
   startSync(
     onDataChange: (colors: ColorEntry[]) => void,
-    intervalMs: number = 30000 // 30 seconds default
+    intervalMs: number = 30000, // 30 seconds default
   ): void {
     if (this.isWatching) {
       return;
@@ -67,10 +67,10 @@ export class BackgroundSyncManager {
       // Check if file has been modified
       if (currentModTime > this.lastKnownModTime) {
         console.log("Color file changed externally, syncing...");
-        
+
         // Invalidate cache
         CachedColorOperations.invalidateColorCache();
-        
+
         // Notify about the change
         if (this.onDataChange) {
           // Load fresh data (this will be handled by the color service)
@@ -137,7 +137,7 @@ class OperationQueue {
     this.isProcessing = true;
 
     // Wait for batch delay to collect more operations
-    await new Promise(resolve => setTimeout(resolve, this.batchDelay));
+    await new Promise((resolve) => setTimeout(resolve, this.batchDelay));
 
     // Process all queued operations
     const operations = [...this.queue];

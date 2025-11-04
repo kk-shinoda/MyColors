@@ -12,11 +12,11 @@ export interface UndoableAction {
   type: ActionType;
   timestamp: number;
   description: string;
-  
+
   // State snapshots
   previousState: ColorEntry[];
   newState: ColorEntry[];
-  
+
   // Action-specific data
   actionData?: {
     colorIndex?: number;
@@ -43,15 +43,15 @@ export class UndoRedoManager {
   recordAction(action: UndoableAction): void {
     // Add to undo stack
     this.undoStack.push(action);
-    
+
     // Clear redo stack when new action is recorded
     this.redoStack = [];
-    
+
     // Limit history size
     if (this.undoStack.length > this.maxHistorySize) {
       this.undoStack.shift();
     }
-    
+
     console.log(`Recorded action: ${action.description}`);
   }
 
@@ -63,7 +63,7 @@ export class UndoRedoManager {
     description: string,
     previousState: ColorEntry[],
     newState: ColorEntry[],
-    actionData?: UndoableAction['actionData']
+    actionData?: UndoableAction["actionData"],
   ): UndoableAction {
     return {
       type,
@@ -80,14 +80,14 @@ export class UndoRedoManager {
    */
   undo(): ColorEntry[] | null {
     const action = this.undoStack.pop();
-    
+
     if (!action) {
       return null;
     }
-    
+
     // Move to redo stack
     this.redoStack.push(action);
-    
+
     console.log(`Undoing: ${action.description}`);
     return action.previousState;
   }
@@ -97,14 +97,14 @@ export class UndoRedoManager {
    */
   redo(): ColorEntry[] | null {
     const action = this.redoStack.pop();
-    
+
     if (!action) {
       return null;
     }
-    
+
     // Move back to undo stack
     this.undoStack.push(action);
-    
+
     console.log(`Redoing: ${action.description}`);
     return action.newState;
   }
@@ -179,14 +179,14 @@ export const ActionCreators = {
   addColor: (
     previousState: ColorEntry[],
     newState: ColorEntry[],
-    addedColor: ColorEntry
+    addedColor: ColorEntry,
   ): UndoableAction => {
     return undoRedoManager.createAction(
       "add",
       `Add color "${addedColor.name}"`,
       previousState,
       newState,
-      { colorData: addedColor }
+      { colorData: addedColor },
     );
   },
 
@@ -195,7 +195,7 @@ export const ActionCreators = {
     newState: ColorEntry[],
     colorIndex: number,
     previousColor: ColorEntry,
-    newColor: ColorEntry
+    newColor: ColorEntry,
   ): UndoableAction => {
     return undoRedoManager.createAction(
       "edit",
@@ -206,33 +206,33 @@ export const ActionCreators = {
         colorIndex,
         previousColorData: previousColor,
         colorData: newColor,
-      }
+      },
     );
   },
 
   deleteColor: (
     previousState: ColorEntry[],
     newState: ColorEntry[],
-    deletedColor: ColorEntry
+    deletedColor: ColorEntry,
   ): UndoableAction => {
     return undoRedoManager.createAction(
       "delete",
       `Delete color "${deletedColor.name}"`,
       previousState,
       newState,
-      { colorData: deletedColor }
+      { colorData: deletedColor },
     );
   },
 
   reorderColors: (
     previousState: ColorEntry[],
-    newState: ColorEntry[]
+    newState: ColorEntry[],
   ): UndoableAction => {
     return undoRedoManager.createAction(
       "reorder",
       "Reorder colors",
       previousState,
-      newState
+      newState,
     );
   },
 };

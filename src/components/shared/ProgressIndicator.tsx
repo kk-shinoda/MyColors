@@ -35,7 +35,7 @@ export default function ProgressIndicator({
 
     const baseMessage = message || "Processing";
     const percentage = showPercentage ? ` (${Math.round(progress)}%)` : "";
-    
+
     return `${baseMessage}${percentage}`;
   };
 
@@ -55,34 +55,32 @@ export default function ProgressIndicator({
 /**
  * Simple loading indicator for lists
  */
-export function LoadingIndicator({ message = "Loading..." }: { message?: string }) {
-  return (
-    <List.Item
-      title={message}
-      icon={Icon.ArrowClockwise}
-    />
-  );
+export function LoadingIndicator({
+  message = "Loading...",
+}: {
+  message?: string;
+}) {
+  return <List.Item title={message} icon={Icon.ArrowClockwise} />;
 }
 
 /**
  * Success indicator for completed operations
  */
-export function SuccessIndicator({ message = "Operation completed" }: { message?: string }) {
-  return (
-    <List.Item
-      title={message}
-      icon={Icon.CheckCircle}
-    />
-  );
+export function SuccessIndicator({
+  message = "Operation completed",
+}: {
+  message?: string;
+}) {
+  return <List.Item title={message} icon={Icon.CheckCircle} />;
 }
 
 /**
  * Error indicator for failed operations
  */
-export function ErrorIndicator({ 
+export function ErrorIndicator({
   message = "Operation failed",
   onRetry,
-}: { 
+}: {
   message?: string;
   onRetry?: () => void;
 }) {

@@ -16,7 +16,8 @@ class Cache<T> {
   private cache = new Map<string, CacheEntry<T>>();
   private defaultTTL: number;
 
-  constructor(defaultTTL: number = 5 * 60 * 1000) { // 5 minutes default
+  constructor(defaultTTL: number = 5 * 60 * 1000) {
+    // 5 minutes default
     this.defaultTTL = defaultTTL;
   }
 
@@ -29,7 +30,7 @@ class Cache<T> {
       timestamp: Date.now(),
       ttl: ttl || this.defaultTTL,
     };
-    
+
     this.cache.set(key, entry);
   }
 
@@ -38,7 +39,7 @@ class Cache<T> {
    */
   get(key: string): T | null {
     const entry = this.cache.get(key);
-    
+
     if (!entry) {
       return null;
     }
@@ -78,7 +79,7 @@ class Cache<T> {
    */
   cleanup(): void {
     const now = Date.now();
-    
+
     for (const [key, entry] of this.cache.entries()) {
       if (now - entry.timestamp > entry.ttl) {
         this.cache.delete(key);
@@ -159,7 +160,7 @@ export class CachedColorOperations {
    */
   static hasFileChanged(currentMetadata: FileMetadata): boolean {
     const cachedMetadata = this.getCachedFileMetadata();
-    
+
     if (!cachedMetadata) {
       return true;
     }
@@ -197,9 +198,12 @@ export function startCacheCleanup(): void {
     return;
   }
 
-  cleanupInterval = setInterval(() => {
-    CachedColorOperations.cleanup();
-  }, 5 * 60 * 1000); // 5 minutes
+  cleanupInterval = setInterval(
+    () => {
+      CachedColorOperations.cleanup();
+    },
+    5 * 60 * 1000,
+  ); // 5 minutes
 }
 
 export function stopCacheCleanup(): void {

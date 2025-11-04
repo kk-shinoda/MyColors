@@ -45,7 +45,9 @@ export class BackupManager {
       // Create backup filename with timestamp
       const timestamp = Date.now();
       const dateStr = new Date(timestamp).toISOString().replace(/[:.]/g, "-");
-      const reasonSuffix = reason ? `-${reason.replace(/[^a-zA-Z0-9]/g, "-")}` : "";
+      const reasonSuffix = reason
+        ? `-${reason.replace(/[^a-zA-Z0-9]/g, "-")}`
+        : "";
       const backupFileName = `colors-backup-${dateStr}${reasonSuffix}.json`;
       const backupFilePath = join(this.backupDirectory, backupFileName);
 
@@ -64,7 +66,7 @@ export class BackupManager {
       await fs.writeFile(
         backupFilePath,
         JSON.stringify(backupData, null, 2),
-        "utf-8"
+        "utf-8",
       );
 
       // Clean up old backups
@@ -92,15 +94,15 @@ export class BackupManager {
 
       console.log(
         `Restoring from backup: ${backupData.colors.length} colors from ${new Date(
-          backupData.metadata.timestamp
-        ).toISOString()}`
+          backupData.metadata.timestamp,
+        ).toISOString()}`,
       );
 
       return backupData.colors;
     } catch (error) {
       throw new FileOperationError(
         `Failed to restore from backup: ${error}`,
-        backupFilePath
+        backupFilePath,
       );
     }
   }
@@ -108,7 +110,9 @@ export class BackupManager {
   /**
    * Lists available backup files
    */
-  async listBackups(): Promise<Array<{ filePath: string; metadata: BackupMetadata }>> {
+  async listBackups(): Promise<
+    Array<{ filePath: string; metadata: BackupMetadata }>
+  > {
     try {
       const backups: Array<{ filePath: string; metadata: BackupMetadata }> = [];
 
@@ -120,15 +124,15 @@ export class BackupManager {
       }
 
       const files = await fs.readdir(this.backupDirectory);
-      
+
       for (const file of files) {
         if (file.endsWith(".json") && file.startsWith("colors-backup-")) {
           const filePath = join(this.backupDirectory, file);
-          
+
           try {
             const content = await fs.readFile(filePath, "utf-8");
             const backupData: BackupFile = JSON.parse(content);
-            
+
             if (backupData.metadata) {
               backups.push({
                 filePath,
@@ -156,10 +160,10 @@ export class BackupManager {
   private async cleanupOldBackups(): Promise<void> {
     try {
       const backups = await this.listBackups();
-      
+
       if (backups.length > this.maxBackups) {
         const backupsToDelete = backups.slice(this.maxBackups);
-        
+
         for (const backup of backupsToDelete) {
           try {
             await fs.unlink(backup.filePath);
@@ -177,7 +181,10 @@ export class BackupManager {
   /**
    * Creates an automatic backup before risky operations
    */
-  async createAutoBackup(colors: ColorEntry[], operation: string): Promise<string | null> {
+  async createAutoBackup(
+    colors: ColorEntry[],
+    operation: string,
+  ): Promise<string | null> {
     try {
       return await this.createBackup(colors, `auto-${operation}`);
     } catch (error) {
@@ -192,11 +199,15 @@ export class BackupManager {
   async getBackupStats() {
     try {
       const backups = await this.listBackups();
-      
+
       return {
         totalBackups: backups.length,
-        oldestBackup: backups.length > 0 ? new Date(backups[backups.length - 1].metadata.timestamp) : null,
-        newestBackup: backups.length > 0 ? new Date(backups[0].metadata.timestamp) : null,
+        oldestBackup:
+          backups.length > 0
+            ? new Date(backups[backups.length - 1].metadata.timestamp)
+            : null,
+        newestBackup:
+          backups.length > 0 ? new Date(backups[0].metadata.timestamp) : null,
         totalSize: await this.calculateTotalBackupSize(),
       };
     } catch (error) {
@@ -217,16 +228,19 @@ export class BackupManager {
     try {
       const backups = await this.listBackups();
       let totalSize = 0;
-      
+
       for (const backup of backups) {
         try {
           const stats = await fs.stat(backup.filePath);
           totalSize += stats.size;
         } catch (error) {
-          console.warn(`Failed to get size for backup ${backup.filePath}:`, error);
+          console.warn(
+            `Failed to get size for backup ${backup.filePath}:`,
+            error,
+          );
         }
       }
-      
+
       return totalSize;
     } catch (error) {
       console.warn("Failed to calculate backup size:", error);

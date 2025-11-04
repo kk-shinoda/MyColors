@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
 import { ColorEntry } from "../types";
-import { 
+import {
   loadColors as loadColorsService,
   saveColors as saveColorsService,
   ensureColorFile,
@@ -20,7 +20,9 @@ interface UseFileOperationsActions {
   clearError: () => void;
 }
 
-export interface UseFileOperationsReturn extends UseFileOperationsState, UseFileOperationsActions {}
+export interface UseFileOperationsReturn
+  extends UseFileOperationsState,
+    UseFileOperationsActions {}
 
 /**
  * Custom hook for file system operations
@@ -40,7 +42,7 @@ export function useFileOperations(): UseFileOperationsReturn {
       setLastOperation("Loading colors");
 
       const colors = await loadColorsService();
-      
+
       setLastOperation("Colors loaded successfully");
       return colors;
     } catch (err) {
@@ -54,24 +56,27 @@ export function useFileOperations(): UseFileOperationsReturn {
   }, []);
 
   // Save colors to file
-  const saveColors = useCallback(async (colors: ColorEntry[]): Promise<void> => {
-    try {
-      setIsLoading(true);
-      setError(null);
-      setLastOperation("Saving colors");
+  const saveColors = useCallback(
+    async (colors: ColorEntry[]): Promise<void> => {
+      try {
+        setIsLoading(true);
+        setError(null);
+        setLastOperation("Saving colors");
 
-      await saveColorsService(colors);
-      
-      setLastOperation("Colors saved successfully");
-    } catch (err) {
-      const errorMessage = formatErrorMessage(err);
-      setError(errorMessage);
-      setLastOperation("Failed to save colors");
-      throw err;
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
+        await saveColorsService(colors);
+
+        setLastOperation("Colors saved successfully");
+      } catch (err) {
+        const errorMessage = formatErrorMessage(err);
+        setError(errorMessage);
+        setLastOperation("Failed to save colors");
+        throw err;
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [],
+  );
 
   // Initialize color file with defaults if it doesn't exist
   const initializeColorFile = useCallback(async (): Promise<void> => {
@@ -81,7 +86,7 @@ export function useFileOperations(): UseFileOperationsReturn {
       setLastOperation("Initializing color file");
 
       await ensureColorFile();
-      
+
       setLastOperation("Color file initialized");
     } catch (err) {
       const errorMessage = formatErrorMessage(err);
@@ -103,7 +108,7 @@ export function useFileOperations(): UseFileOperationsReturn {
     isLoading,
     error,
     lastOperation,
-    
+
     // Actions
     loadColors,
     saveColors,

@@ -1,7 +1,4 @@
-import { Form } from "@raycast/api";
-import { useState } from "react";
 import { RGB } from "../../types";
-import { validateRgbValue } from "../../validators/colorValidators";
 import ColorInput from "./ColorInput";
 
 interface ColorPickerProps {
@@ -22,36 +19,9 @@ interface ColorPickerProps {
  */
 export default function ColorPicker({
   initialColor = { r: 255, g: 90, b: 90 },
-  onColorChange,
   errors = {},
   onErrorChange,
 }: ColorPickerProps) {
-  const [rgb, setRgb] = useState<RGB>(initialColor);
-
-  const handleValueChange = (
-    component: "r" | "g" | "b",
-    value: string,
-    fieldName: "red" | "green" | "blue"
-  ) => {
-    // Clear error when user starts typing
-    onErrorChange?.(fieldName, undefined);
-
-    // Validate the input
-    const error = validateRgbValue(value, fieldName);
-    if (error) {
-      onErrorChange?.(fieldName, error);
-      return;
-    }
-
-    // Update RGB value if valid
-    const numValue = parseInt(value, 10);
-    if (!isNaN(numValue) && numValue >= 0 && numValue <= 255) {
-      const newRgb = { ...rgb, [component]: numValue };
-      setRgb(newRgb);
-      onColorChange?.(newRgb);
-    }
-  };
-
   return (
     <>
       <ColorInput

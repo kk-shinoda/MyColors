@@ -41,7 +41,7 @@ export default function EditColorForm({
   const handleSubmit = async (values: FormValues) => {
     // Validate form
     const isValid = validateForm(values);
-    
+
     if (!isValid) {
       return;
     }

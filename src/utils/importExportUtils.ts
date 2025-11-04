@@ -19,7 +19,7 @@ export interface ColorPaletteExport {
 export async function exportColorPalette(
   colors: ColorEntry[],
   filePath: string,
-  paletteName: string = "MyColor Palette"
+  paletteName: string = "MyColor Palette",
 ): Promise<void> {
   try {
     const exportData: ColorPaletteExport = {
@@ -32,14 +32,19 @@ export async function exportColorPalette(
     const jsonData = JSON.stringify(exportData, null, 2);
     await fs.writeFile(filePath, jsonData, "utf-8");
   } catch (error) {
-    throw new FileOperationError(`Failed to export color palette: ${error}`, filePath);
+    throw new FileOperationError(
+      `Failed to export color palette: ${error}`,
+      filePath,
+    );
   }
 }
 
 /**
  * Imports color palette from JSON file
  */
-export async function importColorPalette(filePath: string): Promise<ColorEntry[]> {
+export async function importColorPalette(
+  filePath: string,
+): Promise<ColorEntry[]> {
   try {
     const fileContent = await fs.readFile(filePath, "utf-8");
     const importData = JSON.parse(fileContent);
@@ -51,7 +56,7 @@ export async function importColorPalette(filePath: string): Promise<ColorEntry[]
 
     // Handle different import formats
     let colors: unknown[];
-    
+
     if (Array.isArray(importData)) {
       // Direct array of colors
       colors = importData;
@@ -76,7 +81,10 @@ export async function importColorPalette(filePath: string): Promise<ColorEntry[]
     if (error instanceof SyntaxError) {
       throw new FileOperationError("Invalid JSON file format", filePath);
     }
-    throw new FileOperationError(`Failed to import color palette: ${error}`, filePath);
+    throw new FileOperationError(
+      `Failed to import color palette: ${error}`,
+      filePath,
+    );
   }
 }
 
@@ -84,37 +92,54 @@ export async function importColorPalette(filePath: string): Promise<ColorEntry[]
  * Exports colors to Adobe Swatch Exchange (ASE) format (simplified)
  * Note: This is a basic implementation for demonstration
  */
-export async function exportToASE(colors: ColorEntry[], filePath: string): Promise<void> {
+export async function exportToASE(
+  colors: ColorEntry[],
+  filePath: string,
+): Promise<void> {
   try {
     // Create a simple text-based ASE-like format for demonstration
-    const aseContent = colors.map(color => {
-      const { r, g, b } = color.rgb;
-      return `${color.name}\t${r/255}\t${g/255}\t${b/255}\tRGB`;
-    }).join('\n');
+    const aseContent = colors
+      .map((color) => {
+        const { r, g, b } = color.rgb;
+        return `${color.name}\t${r / 255}\t${g / 255}\t${b / 255}\tRGB`;
+      })
+      .join("\n");
 
     await fs.writeFile(filePath, aseContent, "utf-8");
   } catch (error) {
-    throw new FileOperationError(`Failed to export ASE file: ${error}`, filePath);
+    throw new FileOperationError(
+      `Failed to export ASE file: ${error}`,
+      filePath,
+    );
   }
 }
 
 /**
  * Exports colors to CSS custom properties format
  */
-export async function exportToCSS(colors: ColorEntry[], filePath: string): Promise<void> {
+export async function exportToCSS(
+  colors: ColorEntry[],
+  filePath: string,
+): Promise<void> {
   try {
     const cssContent = [
       ":root {",
-      ...colors.map(color => {
+      ...colors.map((color) => {
         const { r, g, b } = color.rgb;
-        const varName = color.name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+        const varName = color.name
+          .toLowerCase()
+          .replace(/\s+/g, "-")
+          .replace(/[^a-z0-9-]/g, "");
         return `  --color-${varName}: rgb(${r}, ${g}, ${b});`;
       }),
-      "}"
-    ].join('\n');
+      "}",
+    ].join("\n");
 
     await fs.writeFile(filePath, cssContent, "utf-8");
   } catch (error) {
-    throw new FileOperationError(`Failed to export CSS file: ${error}`, filePath);
+    throw new FileOperationError(
+      `Failed to export CSS file: ${error}`,
+      filePath,
+    );
   }
 }

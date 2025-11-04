@@ -1,6 +1,11 @@
 import { useState, useEffect, useCallback } from "react";
 import { ColorEntry } from "../types";
-import { loadColors, addColor, editColor, deleteColor } from "../services/colorService";
+import {
+  loadColors,
+  addColor,
+  editColor,
+  deleteColor,
+} from "../services/colorService";
 import { formatErrorMessage } from "../utils/errorUtils";
 import { undoRedoManager, ActionCreators } from "../utils/undoRedoUtils";
 import { backupManager } from "../utils/backupUtils";
@@ -13,8 +18,15 @@ interface UseColorsState {
 
 interface UseColorsActions {
   refreshColors: () => Promise<void>;
-  addNewColor: (name: string, rgb: { r: number; g: number; b: number }) => Promise<ColorEntry[]>;
-  updateColor: (index: number, name: string, rgb: { r: number; g: number; b: number }) => Promise<ColorEntry[]>;
+  addNewColor: (
+    name: string,
+    rgb: { r: number; g: number; b: number },
+  ) => Promise<ColorEntry[]>;
+  updateColor: (
+    index: number,
+    name: string,
+    rgb: { r: number; g: number; b: number },
+  ) => Promise<ColorEntry[]>;
   removeColor: (index: number) => Promise<ColorEntry[]>;
   setColors: (colors: ColorEntry[]) => void;
   clearError: () => void;
@@ -56,118 +68,135 @@ export function useColors(): UseColorsReturn {
   }, []);
 
   // Add new color with optimistic updates and undo/redo support
-  const addNewColor = useCallback(async (
-    name: string,
-    rgb: { r: number; g: number; b: number }
-  ): Promise<ColorEntry[]> => {
-    try {
-      setError(null);
-      
-      const previousColors = [...colors];
-      
-      // Create backup before risky operation
-      await backupManager.createAutoBackup(previousColors, "add-color");
-      
-      const updatedColors = await addColor(name, rgb);
-      
-      // Record action for undo/redo
-      const addedColor = updatedColors[updatedColors.length - 1];
-      const action = ActionCreators.addColor(previousColors, updatedColors, addedColor);
-      undoRedoManager.recordAction(action);
-      
-      setColors(updatedColors);
-      setCanUndo(undoRedoManager.canUndo());
-      setCanRedo(undoRedoManager.canRedo());
-      
-      return updatedColors;
-    } catch (err) {
-      const errorMessage = formatErrorMessage(err);
-      setError(errorMessage);
-      throw err;
-    }
-  }, [colors]);
+  const addNewColor = useCallback(
+    async (
+      name: string,
+      rgb: { r: number; g: number; b: number },
+    ): Promise<ColorEntry[]> => {
+      try {
+        setError(null);
+
+        const previousColors = [...colors];
+
+        // Create backup before risky operation
+        await backupManager.createAutoBackup(previousColors, "add-color");
+
+        const updatedColors = await addColor(name, rgb);
+
+        // Record action for undo/redo
+        const addedColor = updatedColors[updatedColors.length - 1];
+        const action = ActionCreators.addColor(
+          previousColors,
+          updatedColors,
+          addedColor,
+        );
+        undoRedoManager.recordAction(action);
+
+        setColors(updatedColors);
+        setCanUndo(undoRedoManager.canUndo());
+        setCanRedo(undoRedoManager.canRedo());
+
+        return updatedColors;
+      } catch (err) {
+        const errorMessage = formatErrorMessage(err);
+        setError(errorMessage);
+        throw err;
+      }
+    },
+    [colors],
+  );
 
   // Update existing color with optimistic updates and undo/redo support
-  const updateColor = useCallback(async (
-    index: number,
-    name: string,
-    rgb: { r: number; g: number; b: number }
-  ): Promise<ColorEntry[]> => {
-    try {
-      setError(null);
-      
-      const previousColors = [...colors];
-      const previousColor = previousColors[index];
-      
-      if (!previousColor) {
-        throw new Error("Color not found");
+  const updateColor = useCallback(
+    async (
+      index: number,
+      name: string,
+      rgb: { r: number; g: number; b: number },
+    ): Promise<ColorEntry[]> => {
+      try {
+        setError(null);
+
+        const previousColors = [...colors];
+        const previousColor = previousColors[index];
+
+        if (!previousColor) {
+          throw new Error("Color not found");
+        }
+
+        // Create backup before risky operation
+        await backupManager.createAutoBackup(previousColors, "edit-color");
+
+        const updatedColors = await editColor(index, name, rgb);
+        const newColor = updatedColors[index];
+
+        // Record action for undo/redo
+        const action = ActionCreators.editColor(
+          previousColors,
+          updatedColors,
+          index,
+          previousColor,
+          newColor,
+        );
+        undoRedoManager.recordAction(action);
+
+        setColors(updatedColors);
+        setCanUndo(undoRedoManager.canUndo());
+        setCanRedo(undoRedoManager.canRedo());
+
+        return updatedColors;
+      } catch (err) {
+        const errorMessage = formatErrorMessage(err);
+        setError(errorMessage);
+        throw err;
       }
-      
-      // Create backup before risky operation
-      await backupManager.createAutoBackup(previousColors, "edit-color");
-      
-      const updatedColors = await editColor(index, name, rgb);
-      const newColor = updatedColors[index];
-      
-      // Record action for undo/redo
-      const action = ActionCreators.editColor(
-        previousColors,
-        updatedColors,
-        index,
-        previousColor,
-        newColor
-      );
-      undoRedoManager.recordAction(action);
-      
-      setColors(updatedColors);
-      setCanUndo(undoRedoManager.canUndo());
-      setCanRedo(undoRedoManager.canRedo());
-      
-      return updatedColors;
-    } catch (err) {
-      const errorMessage = formatErrorMessage(err);
-      setError(errorMessage);
-      throw err;
-    }
-  }, [colors]);
+    },
+    [colors],
+  );
 
   // Remove color with optimistic updates and undo/redo support
-  const removeColor = useCallback(async (index: number): Promise<ColorEntry[]> => {
-    try {
-      setError(null);
-      
-      const previousColors = [...colors];
-      const deletedColor = previousColors[index];
-      
-      if (!deletedColor) {
-        throw new Error("Color not found");
-      }
-      
-      // Create backup before risky operation
-      await backupManager.createAutoBackup(previousColors, "delete-color");
-      
-      const updatedColors = await deleteColor(index);
-      
-      // Record action for undo/redo
-      const action = ActionCreators.deleteColor(previousColors, updatedColors, deletedColor);
-      undoRedoManager.recordAction(action);
-      
-      setColors(updatedColors);
-      setCanUndo(undoRedoManager.canUndo());
-      setCanRedo(undoRedoManager.canRedo());
-      
-      // Handle edge case: if all colors were deleted, clear error to show proper empty state
-      if (updatedColors.length === 0) {
+  const removeColor = useCallback(
+    async (index: number): Promise<ColorEntry[]> => {
+      try {
         setError(null);
+
+        const previousColors = [...colors];
+        const deletedColor = previousColors[index];
+
+        if (!deletedColor) {
+          throw new Error("Color not found");
+        }
+
+        // Create backup before risky operation
+        await backupManager.createAutoBackup(previousColors, "delete-color");
+
+        const updatedColors = await deleteColor(index);
+
+        // Record action for undo/redo
+        const action = ActionCreators.deleteColor(
+          previousColors,
+          updatedColors,
+          deletedColor,
+        );
+        undoRedoManager.recordAction(action);
+
+        setColors(updatedColors);
+        setCanUndo(undoRedoManager.canUndo());
+        setCanRedo(undoRedoManager.canRedo());
+
+        // Handle edge case: if all colors were deleted, clear error to show proper empty state
+        if (updatedColors.length === 0) {
+          setError(null);
+        }
+
+        return updatedColors;
+      } catch (err) {
+        const errorMessage = formatErrorMessage(err);
+        setError(errorMessage);
+        throw err;
       }
-      
-      return updatedColors;
-    } catch (err) {
-      const errorMessage = formatErrorMessage(err);
-      setError(errorMessage);
-      throw err;
-    }
-  }, [colors]);
+    },
+    [colors],
+  );
 
   // Clear error state
   const clearError = useCallback(() => {
@@ -182,9 +211,11 @@ export function useColors(): UseColorsReturn {
         setColors(previousState);
         setCanUndo(undoRedoManager.canUndo());
         setCanRedo(undoRedoManager.canRedo());
-        
+
         // Save the undone state to file
-        const { saveColors } = await import("../services/colorService/fileOperations");
+        const { saveColors } = await import(
+          "../services/colorService/fileOperations"
+        );
         await saveColors(previousState);
       }
     } catch (err) {
@@ -201,9 +232,11 @@ export function useColors(): UseColorsReturn {
         setColors(newState);
         setCanUndo(undoRedoManager.canUndo());
         setCanRedo(undoRedoManager.canRedo());
-        
+
         // Save the redone state to file
-        const { saveColors } = await import("../services/colorService/fileOperations");
+        const { saveColors } = await import(
+          "../services/colorService/fileOperations"
+        );
         await saveColors(newState);
       }
     } catch (err) {
@@ -213,15 +246,18 @@ export function useColors(): UseColorsReturn {
   }, []);
 
   // Create manual backup
-  const createBackup = useCallback(async (reason?: string) => {
-    try {
-      await backupManager.createBackup(colors, reason);
-    } catch (err) {
-      const errorMessage = formatErrorMessage(err);
-      setError(errorMessage);
-      throw err;
-    }
-  }, [colors]);
+  const createBackup = useCallback(
+    async (reason?: string) => {
+      try {
+        await backupManager.createBackup(colors, reason);
+      } catch (err) {
+        const errorMessage = formatErrorMessage(err);
+        setError(errorMessage);
+        throw err;
+      }
+    },
+    [colors],
+  );
 
   // Load colors on hook initialization
   useEffect(() => {
@@ -241,7 +277,7 @@ export function useColors(): UseColorsReturn {
     error,
     canUndo,
     canRedo,
-    
+
     // Actions
     refreshColors,
     addNewColor,

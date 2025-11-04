@@ -1,59 +1,66 @@
+import { ColorEntry } from "../types";
+
 /**
  * Debounce utility for limiting function calls
  */
-export function debounce<T extends (...args: any[]) => any>(
+export function debounce<T extends (...args: never[]) => void>(
   func: T,
-  delay: number
-): (...args: Parameters<T>) => void {
+  delay: number,
+): T {
   let timeoutId: NodeJS.Timeout;
 
-  return (...args: Parameters<T>) => {
+  return ((...args: Parameters<T>) => {
     clearTimeout(timeoutId);
     timeoutId = setTimeout(() => func(...args), delay);
-  };
+  }) as T;
 }
 
 /**
  * Throttle utility for limiting function calls to a maximum frequency
  */
-export function throttle<T extends (...args: any[]) => any>(
+export function throttle<T extends (...args: never[]) => void>(
   func: T,
-  limit: number
-): (...args: Parameters<T>) => void {
+  limit: number,
+): T {
   let inThrottle: boolean;
 
-  return (...args: Parameters<T>) => {
+  return ((...args: Parameters<T>) => {
     if (!inThrottle) {
       func(...args);
       inThrottle = true;
       setTimeout(() => (inThrottle = false), limit);
     }
-  };
+  }) as T;
 }
 
 /**
- * Debounced search function for color filtering
+ * Creates a debounced search function for color filtering
  */
-export const debouncedSearch = debounce((
-  searchTerm: string,
-  colors: any[],
-  callback: (filteredColors: any[]) => void
-) => {
-  const filtered = colors.filter(color =>
-    color.name.toLowerCase().includes(searchTerm.toLowerCase())
+export function createDebouncedSearch(delay = 300) {
+  return debounce(
+    (
+      searchTerm: string,
+      colors: ColorEntry[],
+      callback: (filteredColors: ColorEntry[]) => void,
+    ) => {
+      const filtered = colors.filter((color) =>
+        color.name.toLowerCase().includes(searchTerm.toLowerCase()),
+      );
+      callback(filtered);
+    },
+    delay,
   );
-  callback(filtered);
-}, 300);
+}
 
 /**
- * Throttled file save operation
+ * Creates a throttled save function
  */
-export const throttledSave = throttle(async (
-  saveFunction: () => Promise<void>
-) => {
-  try {
-    await saveFunction();
-  } catch (error) {
-    console.error("Throttled save failed:", error);
-  }
-}, 1000); // Maximum one save per second
+export function createThrottledSave(limit = 1000) {
+  return throttle(async (saveFunction: () => Promise<void>) => {
+    try {
+      await saveFunction();
+    } catch (error) {
+      console.error("Throttled save failed:", error);
+    }
+  }, limit);
+}

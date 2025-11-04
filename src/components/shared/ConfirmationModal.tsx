@@ -37,7 +37,7 @@ export async function showConfirmationModal({
  */
 export async function showDeleteConfirmation(
   itemName: string,
-  itemType: string = "item"
+  itemType: string = "item",
 ): Promise<boolean> {
   return showConfirmationModal({
     title: `Delete ${itemType}`,

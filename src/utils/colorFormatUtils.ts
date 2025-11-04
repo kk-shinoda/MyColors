@@ -118,7 +118,7 @@ export function formatCmykString(color: ColorEntry): string {
  */
 export function parseHexToRgb(hex: string): RGB | null {
   const cleanHex = hex.replace("#", "");
-  
+
   if (cleanHex.length !== 6) {
     return null;
   }

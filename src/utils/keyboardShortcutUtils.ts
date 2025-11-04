@@ -31,24 +31,26 @@ export function getKeyboardShortcuts(customShortcuts?: CustomShortcuts) {
 /**
  * Validates keyboard shortcut format
  */
-export function validateKeyboardShortcut(shortcut: unknown): KeyboardShortcut | null {
+export function validateKeyboardShortcut(
+  shortcut: unknown,
+): KeyboardShortcut | null {
   if (
     typeof shortcut === "object" &&
     shortcut !== null &&
     "modifiers" in shortcut &&
     "key" in shortcut
   ) {
-    const { modifiers, key } = shortcut as any;
-    
+    const { modifiers, key } = shortcut as { modifiers: unknown; key: unknown };
+
     if (
       Array.isArray(modifiers) &&
-      modifiers.every(mod => typeof mod === "string") &&
+      modifiers.every((mod) => typeof mod === "string") &&
       typeof key === "string"
     ) {
       return { modifiers, key };
     }
   }
-  
+
   return null;
 }
 
@@ -64,7 +66,7 @@ export function formatShortcutDisplay(shortcut: KeyboardShortcut): string {
   };
 
   const formattedModifiers = shortcut.modifiers
-    .map(mod => modifierMap[mod.toLowerCase()] || mod)
+    .map((mod) => modifierMap[mod.toLowerCase()] || mod)
     .join("");
 
   return `${formattedModifiers}${shortcut.key.toUpperCase()}`;

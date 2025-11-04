@@ -33,7 +33,7 @@ export const DEFAULT_COLOR_FORMAT = "hex" as const;
  * Supported color formats
  */
 export const SUPPORTED_COLOR_FORMATS = ["hex", "rgb", "hsl", "cmyk"] as const;
-export type ColorFormat = typeof SUPPORTED_COLOR_FORMATS[number];
+export type ColorFormat = (typeof SUPPORTED_COLOR_FORMATS)[number];
 
 /**
  * Toast message durations (in milliseconds)
@@ -48,11 +48,11 @@ export const TOAST_DURATION = {
  * Keyboard shortcuts
  */
 export const KEYBOARD_SHORTCUTS = {
-  ADD_COLOR: { modifiers: ["cmd"] as const, key: "n" },
-  REFRESH: { modifiers: ["cmd"] as const, key: "r" },
-  EDIT: { modifiers: ["cmd"] as const, key: "e" },
-  DELETE: { modifiers: ["cmd"] as const, key: "delete" },
-} as const;
+  ADD_COLOR: { modifiers: ["cmd"], key: "n" },
+  REFRESH: { modifiers: ["cmd"], key: "r" },
+  EDIT: { modifiers: ["cmd"], key: "e" },
+  DELETE: { modifiers: ["cmd"], key: "delete" },
+};
 
 /**
  * UI text constants

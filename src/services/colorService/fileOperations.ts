@@ -10,7 +10,7 @@ import {
   readJsonFile,
   writeJsonFile,
 } from "../../utils/fileSystemUtils";
-import { FileOperationError, withErrorHandling } from "../../utils/errorUtils";
+import { withErrorHandling } from "../../utils/errorUtils";
 import { CachedColorOperations } from "../../utils/cacheUtils";
 
 /**
@@ -26,14 +26,14 @@ export const COLOR_FILE_PATH = getColorFilePath();
 export async function ensureColorFile(): Promise<void> {
   return withErrorHandling(async () => {
     const exists = await fileExists(COLOR_FILE_PATH);
-    
+
     if (!exists) {
       // Ensure directory exists
       await ensureDirectoryExists(getColorDirectory());
-      
+
       // Write default colors to file
       await writeJsonFile(COLOR_FILE_PATH, DEFAULT_COLORS);
-      
+
       console.log("Created default colors file");
     }
   }, "Failed to ensure color file exists");
@@ -48,19 +48,19 @@ export async function loadColors(): Promise<ColorEntry[]> {
   try {
     // Check cache first
     const cachedColors = CachedColorOperations.getCachedColors();
-    
+
     // Check if file has changed since last cache
     const filePath = COLOR_FILE_PATH;
     let shouldUseCache = false;
-    
-    if (cachedColors && await fileExists(filePath)) {
+
+    if (cachedColors && (await fileExists(filePath))) {
       try {
         const stats = await fs.stat(filePath);
         const currentMetadata = {
           lastModified: stats.mtime.getTime(),
           size: stats.size,
         };
-        
+
         if (!CachedColorOperations.hasFileChanged(currentMetadata)) {
           shouldUseCache = true;
         } else {
@@ -71,7 +71,7 @@ export async function loadColors(): Promise<ColorEntry[]> {
         console.warn("Failed to check file metadata:", error);
       }
     }
-    
+
     if (shouldUseCache && cachedColors) {
       return cachedColors;
     }
@@ -107,7 +107,7 @@ export async function loadColors(): Promise<ColorEntry[]> {
 
     // Cache the loaded colors
     CachedColorOperations.setCachedColors(validColors);
-    
+
     return validColors;
   } catch (error) {
     // Handle file not found or JSON parsing errors
@@ -147,7 +147,7 @@ export async function saveColors(colors: ColorEntry[]): Promise<void> {
 
     // Update cache with new data
     CachedColorOperations.setCachedColors(reindexedColors);
-    
+
     // Update file metadata cache
     try {
       const stats = await fs.stat(COLOR_FILE_PATH);

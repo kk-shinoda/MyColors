@@ -21,7 +21,7 @@ export default function ColorPreview({
 }: ColorPreviewProps) {
   // Use color from ColorEntry or direct RGB values
   const rgbValues = color?.rgb || rgb;
-  
+
   if (!rgbValues) {
     return null;
   }

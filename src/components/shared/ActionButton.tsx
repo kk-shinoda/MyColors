@@ -3,7 +3,7 @@ import { Action, Icon } from "@raycast/api";
 interface ActionButtonProps {
   title: string;
   icon?: Icon;
-  shortcut?: { modifiers: readonly string[]; key: string };
+  shortcut?: Action.Props["shortcut"];
   style?: Action.Style | "Destructive";
   onAction: () => void | Promise<void>;
 }
@@ -19,8 +19,9 @@ export default function ActionButton({
   style,
   onAction,
 }: ActionButtonProps) {
-  const actionStyle = style === "Destructive" ? Action.Style.Destructive : style;
-  
+  const actionStyle =
+    style === "Destructive" ? Action.Style.Destructive : style;
+
   return (
     <Action
       title={title}

@@ -37,7 +37,7 @@ export default function AddColorForm({ onColorAdded }: AddColorFormProps) {
   const handleSubmit = async (values: FormValues) => {
     // Validate form
     const isValid = validateForm(values);
-    
+
     if (!isValid) {
       return;
     }

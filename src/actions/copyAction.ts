@@ -6,7 +6,7 @@ import {
   formatHslString,
   formatCmykString,
 } from "../utils/colorFormatUtils";
-import { ColorFormat, DEFAULT_COLOR_FORMAT } from "../constants/appConstants";
+import { ColorFormat } from "../constants/appConstants";
 import { getUserPreferences } from "../utils/settingsUtils";
 
 // Re-export for backward compatibility
@@ -24,7 +24,7 @@ export async function copyColorToClipboard(
     // Get user preferences for default format if not specified
     const preferences = getUserPreferences();
     const selectedFormat = format || preferences.defaultColorFormat;
-    
+
     // Format the color string based on the specified format
     let colorString: string;
     let formatName: string;
