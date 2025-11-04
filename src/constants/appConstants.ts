@@ -48,10 +48,10 @@ export const TOAST_DURATION = {
  * Keyboard shortcuts
  */
 export const KEYBOARD_SHORTCUTS = {
-  ADD_COLOR: { modifiers: ["cmd"], key: "n" },
-  REFRESH: { modifiers: ["cmd"], key: "r" },
-  EDIT: { modifiers: ["cmd"], key: "e" },
-  DELETE: { modifiers: ["cmd"], key: "delete" },
+  ADD_COLOR: { modifiers: ["cmd"] as const, key: "n" },
+  REFRESH: { modifiers: ["cmd"] as const, key: "r" },
+  EDIT: { modifiers: ["cmd"] as const, key: "e" },
+  DELETE: { modifiers: ["cmd"] as const, key: "delete" },
 } as const;
 
 /**

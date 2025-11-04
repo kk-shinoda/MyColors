@@ -1,4 +1,4 @@
-import { List, Icon } from "@raycast/api";
+import { List, Icon, ActionPanel, Action } from "@raycast/api";
 
 interface ProgressIndicatorProps {
   message?: string;

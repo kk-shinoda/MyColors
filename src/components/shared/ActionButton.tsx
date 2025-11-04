@@ -3,7 +3,7 @@ import { Action, Icon } from "@raycast/api";
 interface ActionButtonProps {
   title: string;
   icon?: Icon;
-  shortcut?: { modifiers: string[]; key: string };
+  shortcut?: { modifiers: readonly string[]; key: string };
   style?: Action.Style | "Destructive";
   onAction: () => void | Promise<void>;
 }

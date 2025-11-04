@@ -1,4 +1,4 @@
-import { Text } from "@raycast/api";
+import React from "react";
 
 interface ValidationMessageProps {
   message?: string;
@@ -31,8 +31,8 @@ export default function ValidationMessage({
   };
 
   return (
-    <Text style={{ color: getColor(), fontSize: 12, marginTop: 4 }}>
+    <div style={{ color: getColor(), fontSize: 12, marginTop: 4 }}>
       {message}
-    </Text>
+    </div>
   );
 }
