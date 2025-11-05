@@ -34,10 +34,10 @@ export default function EditColorForm({
   onColorEdited,
 }: EditColorFormProps) {
   const [isLoading, setIsLoading] = useState(false);
-  const [rgbValues, setRgbValues] = useState({ 
-    r: color.rgb.r.toString(), 
-    g: color.rgb.g.toString(), 
-    b: color.rgb.b.toString() 
+  const [rgbValues, setRgbValues] = useState({
+    r: color.rgb.r.toString(),
+    g: color.rgb.g.toString(),
+    b: color.rgb.b.toString(),
   });
   const [hexValue, setHexValue] = useState(formatAsHex(color.rgb));
   const { updateColor } = useColors();
@@ -78,8 +78,17 @@ export default function EditColorForm({
     const g = parseInt(newRgbValues.g, 10);
     const b = parseInt(newRgbValues.b, 10);
 
-    if (!isNaN(r) && !isNaN(g) && !isNaN(b) && 
-        r >= 0 && r <= 255 && g >= 0 && g <= 255 && b >= 0 && b <= 255) {
+    if (
+      !isNaN(r) &&
+      !isNaN(g) &&
+      !isNaN(b) &&
+      r >= 0 &&
+      r <= 255 &&
+      g >= 0 &&
+      g <= 255 &&
+      b >= 0 &&
+      b <= 255
+    ) {
       const newHex = formatAsHex({ r, g, b });
       setHexValue(newHex);
       clearError("hex");

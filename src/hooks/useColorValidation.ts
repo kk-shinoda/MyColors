@@ -80,7 +80,9 @@ export function useColorValidation(): UseColorValidationReturn {
       const redError = validateField("red", values.red);
       const greenError = validateField("green", values.green);
       const blueError = validateField("blue", values.blue);
-      const hexError = values.hex ? validateField("hex", values.hex) : undefined;
+      const hexError = values.hex
+        ? validateField("hex", values.hex)
+        : undefined;
 
       // Set errors if validation fails
       if (nameError) newErrors.name = nameError;

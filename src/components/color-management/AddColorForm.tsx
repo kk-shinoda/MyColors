@@ -70,8 +70,17 @@ export default function AddColorForm({ onColorAdded }: AddColorFormProps) {
     const g = parseInt(newRgbValues.g, 10);
     const b = parseInt(newRgbValues.b, 10);
 
-    if (!isNaN(r) && !isNaN(g) && !isNaN(b) && 
-        r >= 0 && r <= 255 && g >= 0 && g <= 255 && b >= 0 && b <= 255) {
+    if (
+      !isNaN(r) &&
+      !isNaN(g) &&
+      !isNaN(b) &&
+      r >= 0 &&
+      r <= 255 &&
+      g >= 0 &&
+      g <= 255 &&
+      b >= 0 &&
+      b <= 255
+    ) {
       const newHex = formatAsHex({ r, g, b });
       setHexValue(newHex);
       clearError("hex");

@@ -76,7 +76,7 @@ export function validateColorEntry(color: ColorEntry): boolean {
  */
 export function validateHexColor(hex: string): string | undefined {
   const trimmedHex = hex.trim();
-  
+
   if (!trimmedHex) {
     return undefined; // Allow empty hex input (optional field)
   }

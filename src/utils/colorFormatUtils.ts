@@ -118,12 +118,12 @@ export function formatCmykString(color: ColorEntry): string {
  * Supports both #RRGGBB and #RGB formats
  */
 export function isValidHex(hex: string): boolean {
-  if (!hex || typeof hex !== 'string') {
+  if (!hex || typeof hex !== "string") {
     return false;
   }
 
   const cleanHex = hex.replace("#", "");
-  
+
   // Check for 3-digit or 6-digit hex
   if (cleanHex.length !== 3 && cleanHex.length !== 6) {
     return false;
@@ -143,10 +143,13 @@ export function normalizeHex(hex: string): string {
   }
 
   let cleanHex = hex.replace("#", "").toUpperCase();
-  
+
   // Convert 3-digit to 6-digit format
   if (cleanHex.length === 3) {
-    cleanHex = cleanHex.split('').map(char => char + char).join('');
+    cleanHex = cleanHex
+      .split("")
+      .map((char) => char + char)
+      .join("");
   }
 
   return `#${cleanHex}`;
