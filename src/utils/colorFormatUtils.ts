@@ -114,14 +114,58 @@ export function formatCmykString(color: ColorEntry): string {
 }
 
 /**
- * Parses hex color string to RGB values
+ * Validates if a string is a valid hex color code
+ * Supports both #RRGGBB and #RGB formats
  */
-export function parseHexToRgb(hex: string): RGB | null {
+export function isValidHex(hex: string): boolean {
+  if (!hex || typeof hex !== "string") {
+    return false;
+  }
+
   const cleanHex = hex.replace("#", "");
 
-  if (cleanHex.length !== 6) {
+  // Check for 3-digit or 6-digit hex
+  if (cleanHex.length !== 3 && cleanHex.length !== 6) {
+    return false;
+  }
+
+  // Check if all characters are valid hex digits
+  return /^[0-9A-Fa-f]+$/.test(cleanHex);
+}
+
+/**
+ * Normalizes hex color code to 6-digit format
+ * Converts #RGB to #RRGGBB and ensures # prefix
+ */
+export function normalizeHex(hex: string): string {
+  if (!hex) {
+    return "";
+  }
+
+  let cleanHex = hex.replace("#", "").toUpperCase();
+
+  // Convert 3-digit to 6-digit format
+  if (cleanHex.length === 3) {
+    cleanHex = cleanHex
+      .split("")
+      .map((char) => char + char)
+      .join("");
+  }
+
+  return `#${cleanHex}`;
+}
+
+/**
+ * Converts hex color code to RGB values
+ * Supports both #RRGGBB and #RGB formats
+ */
+export function hexToRgb(hex: string): RGB | null {
+  if (!isValidHex(hex)) {
     return null;
   }
+
+  const normalizedHex = normalizeHex(hex);
+  const cleanHex = normalizedHex.replace("#", "");
 
   const r = parseInt(cleanHex.substring(0, 2), 16);
   const g = parseInt(cleanHex.substring(2, 4), 16);
@@ -132,4 +176,12 @@ export function parseHexToRgb(hex: string): RGB | null {
   }
 
   return { r, g, b };
+}
+
+/**
+ * Parses hex color string to RGB values (backward compatibility)
+ * @deprecated Use hexToRgb instead
+ */
+export function parseHexToRgb(hex: string): RGB | null {
+  return hexToRgb(hex);
 }

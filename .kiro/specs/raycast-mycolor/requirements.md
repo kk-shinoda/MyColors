@@ -75,6 +75,19 @@ MyColor is a minimal Raycast extension that allows users to quickly access and c
 
 ### Requirement 6
 
+**User Story:** As a user, I want to input colors using hex color codes (like #ffffff), so that I can quickly add colors without having to convert from hex to RGB values manually.
+
+#### Acceptance Criteria
+
+1. WHEN the user is adding or editing a color, THE MyColor Extension SHALL provide a hex color input field
+2. THE MyColor Extension SHALL accept hex color codes in the format #RRGGBB (6-digit hex)
+3. THE MyColor Extension SHALL accept hex color codes in the format #RGB (3-digit hex shorthand)
+4. WHEN a valid hex color code is entered, THE MyColor Extension SHALL automatically convert it to RGB values
+5. THE MyColor Extension SHALL validate hex color input and display error messages for invalid formats
+6. THE MyColor Extension SHALL update the color preview in real-time as the user types a valid hex code
+
+### Requirement 7
+
 **User Story:** As a developer, I want automated CI/CD pipeline setup, so that code quality is maintained and builds are validated automatically.
 
 #### Acceptance Criteria

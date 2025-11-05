@@ -100,7 +100,28 @@ interface CopyAction {
 }
 ```
 
-### 4. Configuration Files
+### 4. Color Format Utilities (`src/utils/colorFormatUtils.ts`)
+
+**Purpose**: Handle conversion between different color formats (hex, RGB).
+
+**Key Responsibilities**:
+- Convert hex color codes to RGB values (requirement 6.4)
+- Support both 6-digit (#RRGGBB) and 3-digit (#RGB) hex formats (requirement 6.2, 6.3)
+- Validate hex color code format (requirement 6.5)
+- Provide real-time color conversion for UI updates (requirement 6.6)
+
+**Design Rationale**: Dedicated utility functions for color format conversion ensure consistent behavior across the application and enable easy testing of conversion logic.
+
+**Interface**:
+```typescript
+interface ColorFormatUtils {
+  hexToRgb(hex: string): { r: number; g: number; b: number } | null
+  isValidHex(hex: string): boolean
+  normalizeHex(hex: string): string
+}
+```
+
+### 5. Configuration Files
 
 #### Extension Configuration (`package.json`)
 - Standard npm package configuration with Raycast dependencies
@@ -213,6 +234,8 @@ The extension will create a default `colors.json` file with these entries:
 1. **Invalid JSON**: Basic try/catch with fallback to default colors
 2. **Empty Color List**: Show message indicating no colors available
 3. **Invalid Color Format**: Skip malformed entries and continue with valid ones
+4. **Invalid Hex Color**: Display validation error message for malformed hex codes (requirement 6.5)
+5. **Hex Conversion Errors**: Handle edge cases in hex-to-RGB conversion gracefully
 
 ### Runtime Errors
 

@@ -140,7 +140,36 @@
     - Test error handling across components
     - _Requirements: 1.1, 1.2, 1.3, 1.4, 2.1, 2.2, 2.3, 2.4_
 
-- [x] 10. Refactor codebase for better maintainability and extensibility
+- [x] 10. Add hex color input functionality
+  - [x] 10.1 Create color format conversion utilities
+    - Implement hexToRgb function to convert #RRGGBB format to RGB values
+    - Add support for 3-digit hex shorthand (#RGB to #RRGGBB)
+    - Create isValidHex function for hex color validation
+    - Add normalizeHex function to handle different hex input formats
+    - _Requirements: 6.2, 6.3, 6.4, 6.5_
+
+  - [x] 10.2 Update color input components with hex support
+    - Add hex color input field to AddColorForm component
+    - Add hex color input field to EditColorForm component
+    - Implement real-time conversion from hex to RGB values
+    - Update color preview to reflect hex input changes
+    - _Requirements: 6.1, 6.4, 6.6_
+
+  - [x] 10.3 Add hex input validation and error handling
+    - Implement client-side validation for hex color format
+    - Display error messages for invalid hex codes
+    - Handle edge cases (empty input, partial hex codes)
+    - Ensure proper form state management with hex input
+    - _Requirements: 6.5_
+
+  - [x] 10.4 Integrate hex input with existing color management
+    - Update color service to handle hex-to-RGB conversion
+    - Ensure hex input works with add/edit color workflows
+    - Test integration with existing RGB input fields
+    - Maintain backward compatibility with existing color data
+    - _Requirements: 6.1, 6.4_
+
+- [x] 11. Refactor codebase for better maintainability and extensibility
   - [x] 10.1 Reorganize file structure for scalability
     - Create dedicated directories: hooks/, utils/, constants/, validators/
     - Move color service to services/colorService/ directory
@@ -199,37 +228,37 @@
 
 ## Raycast Store Publication Steps
 
-- [ ] 11. Prepare for Raycast Store publication
-  - [ ] 11.1 Create Raycast developer account
+- [ ] 12. Prepare for Raycast Store publication
+  - [ ] 12.1 Create Raycast developer account
     - Sign up at https://developers.raycast.com/
     - Complete developer profile setup
     - Verify email and account details
 
-  - [ ] 11.2 Update extension metadata for publication
+  - [ ] 12.2 Update extension metadata for publication
     - Replace "local-dev" author with actual Raycast username
     - Add proper extension description and keywords
     - Ensure icon meets Raycast Store requirements (512x512 PNG)
     - Add screenshots for store listing (1280x800 recommended)
 
-  - [ ] 11.3 Validate extension for store submission
+  - [ ] 12.3 Validate extension for store submission
     - Run `npx ray lint` to ensure all validation passes
     - Test extension thoroughly in development mode
     - Verify all commands work as expected
     - Check extension follows Raycast design guidelines
 
-  - [ ] 11.4 Submit extension to Raycast Store
+  - [ ] 12.4 Submit extension to Raycast Store
     - Run `npx ray login` to authenticate with Raycast account
     - Use `npx ray publish` to submit extension for review
     - Fill out store listing information (description, categories, etc.)
     - Submit for Raycast team review
 
-  - [ ] 11.5 Handle store review process
+  - [ ] 12.5 Handle store review process
     - Respond to any feedback from Raycast review team
     - Make necessary changes if requested
     - Re-submit updated version if needed
     - Monitor review status and approval
 
-  - [ ] 11.6 Post-publication maintenance
+  - [ ] 12.6 Post-publication maintenance
     - Monitor user feedback and ratings
     - Plan future feature updates based on user requests
     - Keep extension updated with latest Raycast API changes

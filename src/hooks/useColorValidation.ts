@@ -2,6 +2,7 @@ import { useState, useCallback } from "react";
 import {
   validateColorName,
   validateRgbValue,
+  validateHexColor,
 } from "../validators/colorValidators";
 
 interface ValidationErrors {
@@ -9,6 +10,7 @@ interface ValidationErrors {
   red?: string;
   green?: string;
   blue?: string;
+  hex?: string;
 }
 
 interface FormValues {
@@ -16,6 +18,7 @@ interface FormValues {
   red: string;
   green: string;
   blue: string;
+  hex?: string;
 }
 
 interface UseColorValidationReturn {
@@ -57,6 +60,9 @@ export function useColorValidation(): UseColorValidationReturn {
         case "blue":
           error = validateRgbValue(value, "Blue");
           break;
+        case "hex":
+          error = validateHexColor(value);
+          break;
       }
 
       return error;
@@ -74,12 +80,16 @@ export function useColorValidation(): UseColorValidationReturn {
       const redError = validateField("red", values.red);
       const greenError = validateField("green", values.green);
       const blueError = validateField("blue", values.blue);
+      const hexError = values.hex
+        ? validateField("hex", values.hex)
+        : undefined;
 
       // Set errors if validation fails
       if (nameError) newErrors.name = nameError;
       if (redError) newErrors.red = redError;
       if (greenError) newErrors.green = greenError;
       if (blueError) newErrors.blue = blueError;
+      if (hexError) newErrors.hex = hexError;
 
       // Update error state
       setErrors(newErrors);
