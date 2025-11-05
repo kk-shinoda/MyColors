@@ -1,4 +1,5 @@
 import { RGB, ColorEntry } from "../types";
+import { isValidHex } from "../utils/colorFormatUtils";
 
 /**
  * Validates RGB value input (0-255)
@@ -68,6 +69,23 @@ export function validateColorEntry(color: ColorEntry): boolean {
     color.name.length <= 50 &&
     validateRgbObject(color.rgb)
   );
+}
+
+/**
+ * Validates hex color code input
+ */
+export function validateHexColor(hex: string): string | undefined {
+  const trimmedHex = hex.trim();
+  
+  if (!trimmedHex) {
+    return undefined; // Allow empty hex input (optional field)
+  }
+
+  if (!isValidHex(trimmedHex)) {
+    return "Invalid hex color format. Use #RRGGBB or #RGB format (e.g., #FF5A5A or #F5A)";
+  }
+
+  return undefined;
 }
 
 /**
