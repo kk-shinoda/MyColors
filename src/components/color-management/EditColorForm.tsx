@@ -5,12 +5,15 @@ import {
   showToast,
   Toast,
   popToRoot,
+  Icon,
+  Color,
 } from "@raycast/api";
 import { useState } from "react";
 import { ColorEntry } from "../../types";
 import { useColors, useColorValidation } from "../../hooks";
 import { formatErrorMessage } from "../../utils/errorUtils";
 import { hexToRgb, formatAsHex } from "../../utils/colorFormatUtils";
+import { getCurrentPreviewColor } from "../../utils/colorPreviewUtils";
 
 interface EditColorFormProps {
   color: ColorEntry;
@@ -95,6 +98,10 @@ export default function EditColorForm({
     }
   };
 
+
+
+
+
   /**
    * Handles form submission with validation
    */
@@ -165,6 +172,22 @@ export default function EditColorForm({
         error={errors.name}
         onChange={() => clearError("name")}
       />
+
+      <Form.Dropdown
+        id="colorPreview"
+        title="Color Preview"
+        value="preview"
+        onChange={() => {}} // Read-only
+      >
+        <Form.Dropdown.Item
+          value="preview"
+          title={`RGB(${rgbValues.r || color.rgb.r}, ${rgbValues.g || color.rgb.g}, ${rgbValues.b || color.rgb.b}) • ${hexValue}`}
+          icon={{
+            source: Icon.Circle,
+            tintColor: getCurrentPreviewColor(rgbValues, color.rgb),
+          }}
+        />
+      </Form.Dropdown>
 
       <Form.Separator />
 
