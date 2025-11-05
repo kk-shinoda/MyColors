@@ -6,7 +6,6 @@ import {
   Toast,
   popToRoot,
   Icon,
-  Color,
 } from "@raycast/api";
 import { useState } from "react";
 import { ColorEntry } from "../../types";
@@ -90,20 +89,16 @@ export default function AddColorForm({ onColorAdded }: AddColorFormProps) {
     }
   };
 
-
-
-
-
   /**
    * Get preview text for current color
    */
   const getPreviewText = () => {
     const hasValidValues = rgbValues.r && rgbValues.g && rgbValues.b;
-    
+
     if (hasValidValues) {
       return `RGB(${rgbValues.r}, ${rgbValues.g}, ${rgbValues.b}) - ${hexValue || formatAsHex({ r: parseInt(rgbValues.r, 10), g: parseInt(rgbValues.g, 10), b: parseInt(rgbValues.b, 10) })}`;
     }
-    
+
     return "Enter color values to see preview";
   };
 

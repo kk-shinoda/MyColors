@@ -6,7 +6,6 @@ import {
   Toast,
   popToRoot,
   Icon,
-  Color,
 } from "@raycast/api";
 import { useState } from "react";
 import { ColorEntry } from "../../types";
@@ -97,10 +96,6 @@ export default function EditColorForm({
       clearError("hex");
     }
   };
-
-
-
-
 
   /**
    * Handles form submission with validation
