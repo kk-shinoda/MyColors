@@ -88,6 +88,18 @@ MyColor is a minimal Raycast extension that allows users to quickly access and c
 
 ### Requirement 7
 
+**User Story:** As a user, I want to see a live preview of the color I'm currently editing, so that I can immediately see how the color looks before saving my changes.
+
+#### Acceptance Criteria
+
+1. WHEN the user is editing a color in the EditColorForm, THE MyColor Extension SHALL display a real-time color preview
+2. THE MyColor Extension SHALL update the color preview immediately when RGB values are modified
+3. THE MyColor Extension SHALL update the color preview immediately when hex color values are modified
+4. THE MyColor Extension SHALL display the color preview with sufficient size for easy visual identification
+5. WHERE the color preview is displayed, THE MyColor Extension SHALL maintain readable contrast with surrounding interface elements
+
+### Requirement 8
+
 **User Story:** As a developer, I want automated CI/CD pipeline setup, so that code quality is maintained and builds are validated automatically.
 
 #### Acceptance Criteria

@@ -5,12 +5,14 @@ import {
   showToast,
   Toast,
   popToRoot,
+  Icon,
 } from "@raycast/api";
 import { useState } from "react";
 import { ColorEntry } from "../../types";
 import { useColors, useColorValidation } from "../../hooks";
 import { formatErrorMessage } from "../../utils/errorUtils";
 import { hexToRgb, formatAsHex } from "../../utils/colorFormatUtils";
+import { getCurrentPreviewColor } from "../../utils/colorPreviewUtils";
 
 interface AddColorFormProps {
   onColorAdded: (colors: ColorEntry[]) => void;
@@ -88,6 +90,19 @@ export default function AddColorForm({ onColorAdded }: AddColorFormProps) {
   };
 
   /**
+   * Get preview text for current color
+   */
+  const getPreviewText = () => {
+    const hasValidValues = rgbValues.r && rgbValues.g && rgbValues.b;
+
+    if (hasValidValues) {
+      return `RGB(${rgbValues.r}, ${rgbValues.g}, ${rgbValues.b}) - ${hexValue || formatAsHex({ r: parseInt(rgbValues.r, 10), g: parseInt(rgbValues.g, 10), b: parseInt(rgbValues.b, 10) })}`;
+    }
+
+    return "Enter color values to see preview";
+  };
+
+  /**
    * Handles form submission with validation
    */
   const handleSubmit = async (values: FormValues) => {
@@ -156,6 +171,22 @@ export default function AddColorForm({ onColorAdded }: AddColorFormProps) {
         error={errors.name}
         onChange={() => clearError("name")}
       />
+
+      <Form.Dropdown
+        id="colorPreview"
+        title="Color Preview"
+        value="preview"
+        onChange={() => {}} // Read-only
+      >
+        <Form.Dropdown.Item
+          value="preview"
+          title={getPreviewText()}
+          icon={{
+            source: Icon.Circle,
+            tintColor: getCurrentPreviewColor(rgbValues),
+          }}
+        />
+      </Form.Dropdown>
 
       <Form.Separator />
 

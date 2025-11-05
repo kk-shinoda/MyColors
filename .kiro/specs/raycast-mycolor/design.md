@@ -121,6 +121,31 @@ interface ColorFormatUtils {
 }
 ```
 
+### 5. Color Preview Component (`src/components/shared/ColorPreview.tsx`)
+
+**Purpose**: Display real-time color preview during color editing operations.
+
+**Key Responsibilities**:
+- Render color preview with RGB values (requirement 7.1, 7.2)
+- Update preview immediately when hex values change (requirement 7.3)
+- Provide sufficient preview size for visual identification (requirement 7.4)
+- Maintain proper contrast with interface elements (requirement 7.5)
+- Handle invalid color states gracefully
+
+**Design Rationale**: Dedicated preview component enables consistent color visualization across different forms and provides immediate visual feedback during color editing.
+
+**Interface**:
+```typescript
+interface ColorPreviewProps {
+  rgb: { r: number; g: number; b: number }
+  size?: 'small' | 'medium' | 'large'
+  showBorder?: boolean
+  className?: string
+}
+
+export function ColorPreview(props: ColorPreviewProps): JSX.Element
+```
+
 ### 5. Configuration Files
 
 #### Extension Configuration (`package.json`)
